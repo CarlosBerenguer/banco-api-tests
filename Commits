@@ -1,0 +1,11 @@
+[33mcommit a04ffdfd62c8219ca3ebda08049722c103932076[m[33m ([m[1;36mHEAD -> [m[1;32mrelatorio-execucao-tests[m[33m)[m
+Author: CarlosBerenguer <carloshfb03@gmail.com>
+Date:   Sun Jul 6 14:55:19 2025 -0300
+
+    implementando o mochawsome para geracao de relatorios
+
+[33mcommit 1cbbf222e329a26fa3dedee7b679aadbbb834e4b[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: CarlosBerenguer <carloshfb03@gmail.com>
+Date:   Sun Jul 6 14:39:14 2025 -0300
+
+    inicio do projeto
