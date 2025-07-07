@@ -1,26 +1,13 @@
 const request = require('supertest')
+const { obterToken } = require('../helpers/autenticacao.js')
 const { expect } = require('chai')
+require('dotenv').config()
 
 describe('Transferencias', () => {
-
-    let responseLogin;
-
-    before(async () => {
-        responseLogin = await request(process.env.BASE_URL)
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({
-                'username': 'julio.lima',
-                'senha': '123456'
-            })
-    })
-
     describe('POST /transferencias', () => {
         it('Deve retornar sucesso com 201 quando o valor da transferencia igual ou acima de 10 reais', async () => {
             //capturar TOKEN
-
-
-            const token = responseLogin.body.token;
+            const token = await obterToken('julio.lima', '123456')
 
             const response = await request(process.env.BASE_URL)
                 .post('/transferencias')
@@ -34,15 +21,16 @@ describe('Transferencias', () => {
                 })
 
             expect(response.status).to.equal(201)
-            console.log("response.body : " + response.body)
         })
 
         it('Deve retornar falha com 422 quando o valor da transferencia for abaixo e 10 reais', async () => {
 
+            const token = await obterToken('julio.lima', '123456')
+
             const response = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Content-Type', 'application/json')
-                .set('authorization', `Bearer ${responseLogin.body.token}`)
+                .set('authorization', `Bearer ${token}`)
                 .send({
                     contaOrigem: 1,
                     contaDestino: 2,
@@ -50,16 +38,17 @@ describe('Transferencias', () => {
                     token: ""
                 })
 
-                expect(response.status).to.equal(422)
-                console.log("response.body : " + response.body)
-                
+            expect(response.status).to.equal(422)
         })
 
         it('Deve retornar sucesso com 201 quando o valor da transferencia for acima de 5000 e contiver o token', async () => {
+
+            const token = await obterToken('julio.lima', '123456')
+
             const response = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Content-Type', 'application/json')
-                .set('Authorization', `Bearer ${responseLogin.body.token}`)
+                .set('Authorization', `Bearer ${token}`)
                 .send({
                     contaOrigem: 3,
                     contaDestino: 2,
